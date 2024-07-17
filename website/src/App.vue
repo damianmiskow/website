@@ -1,14 +1,18 @@
 <template>
   <div id="app">
-    <div class="welcome-container">
-      <h1>Damian Miskow</h1>
-    </div>
+    <NavBarComponent />
+    <router-view />
   </div>
 </template>
 
 <script>
+import NavBarComponent from './components/NavBarComponent.vue';
+
 export default {
   name: 'App',
+  components: {
+    NavBarComponent,
+  },
 };
 </script>
 
@@ -20,19 +24,27 @@ body {
   background: linear-gradient(45deg, #6ab7ff, #9c27b0);
   height: 100vh;
   display: flex;
-  flex-direction: column; 
-  justify-content: flex-start; 
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
   color: white;
   text-align: center;
 }
 
-#welcome-container {
+#app {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.welcome-container {
   background: rgba(0, 0, 0, 0.5);
   padding: 50px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  margin-top: 10vh; 
+  margin-top: 10vh;
 }
 
 h1 {
