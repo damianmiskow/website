@@ -1,51 +1,99 @@
 <template>
-  <div class="contact">
+  <div class="projects">
     <h1>Projects Page</h1>
-    <p>Welcome to the Project page.</p>
-    <form @submit.prevent="validateCard">
-      <label for="card_number">Please Enter Card Number:</label>
-      <input type="text" v-model="cardNumber" id="card_number" required>
-      <button type="submit">Validate</button>
-    </form>
-    <p v-if="result !== null">{{ result }}</p>
+    <div class="buttons-container">
+      <router-link
+        v-for="project in projects"
+        :key="project.name"
+        :to="project.route"
+        class="project-button"
+      >
+        <div class="project-content">
+          <div class="project-name">{{ project.name }}</div>
+          <div class="project-description">{{ project.description }}</div>
+        </div>
+      </router-link>
+    </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
-  name: 'ContactPage',
+  name: 'ProjectsPage',
   data() {
     return {
-      cardNumber: '',
-      result: null,
+      projects: [
+        { name: 'Credit Card Validation', route: '/projects/cardvalidationproject', description: 'Validate credit card numbers' },
+        { name: 'Project 2', route: '#', description: 'Description for Project 2' }, 
+        { name: 'Project 3', route: '#', description: 'Description for Project 3' }, 
+        { name: 'Project 4', route: '#', description: 'Description for Project 4' }, 
+      ],
     };
-  },
-  methods: {
-    async validateCard() {
-      try {
-        console.log('Sending POST request with card number:', this.cardNumber); 
-        const response = await axios.post('http://127.0.0.1:5000/validate', {
-          card_number: this.cardNumber,
-        });
-        console.log('Response:', response); 
-        if (response.data.is_valid) {
-          this.result = 'The card number is valid!';
-        } else {
-          this.result = 'The card number is invalid!';
-        }
-      } catch (error) {
-        console.error('There was an error validating the card:', error);
-        this.result = 'An error occurred. Please try again.';
-      }
-    },
   },
 };
 </script>
 
 <style scoped>
-.contact {
+.projects {
   padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 40px; 
+}
+
+.buttons-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px; 
+}
+
+.project-button {
+  background-color: #838b90;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-decoration: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  width: 300px;
+  height: 150px; 
+}
+
+.project-button:hover {
+  background-color: #4682b4;
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.project-button:active {
+  background-color: #4169e1;
+  transform: scale(1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.project-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+}
+
+.project-name {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.project-description {
+  font-size: 16px;
+  color: #ddd;
 }
 </style>

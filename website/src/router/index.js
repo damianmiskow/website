@@ -3,6 +3,7 @@ import HomePage from '../views/HomePage.vue';
 import AboutPage from '../views/AboutPage.vue';
 import ContactPage from '../views/ContactPage.vue';
 import ProjectsPage from '../views/ProjectsPage.vue'
+import CardValProject from '../views/projects/CardValProject.vue'
 
 const routes = [
   {
@@ -24,6 +25,11 @@ const routes = [
     path: '/projects',
     name: 'Projects',
     component: ProjectsPage,
+  },
+  {
+    path: '/projects/cardvalidationproject',
+    name: 'Card Validation Project',
+    component: CardValProject,
   },
 ];
 
