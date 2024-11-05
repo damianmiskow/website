@@ -24,7 +24,9 @@ export default {
     const validateCard = async () => {
       try {
         console.log('Sending POST request with card number:', cardNumber.value);
-        const response = await axios.post('http://127.0.0.1:5000/validate', {
+        
+        // Update the URL to the new IP address
+        const response = await axios.post('http://54.226.145.66:5000/validate', {
           card_number: cardNumber.value,
         });
 
