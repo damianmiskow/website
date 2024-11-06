@@ -25,7 +25,7 @@ export default {
       projects: [
         { name: 'Credit Card Validation', route: '/projects/cardvalidationproject', description: 'Validate credit card numbers' },
         { name: 'Login Page', route: '/projects/loginpageproject', description: 'Log-in to see the page' },
-        { name: 'Project 3', route: '#', description: 'Description for Project 3' }, 
+        { name: 'AWS Connection', route: '/projects/awslambda', description: 'Connects to AWS API' }, 
         { name: 'Project 4', route: '#', description: 'Description for Project 4' }, 
       ],
     };

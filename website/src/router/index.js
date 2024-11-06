@@ -5,7 +5,8 @@ import ContactPage from '../views/ContactPage.vue';
 import ProjectsPage from '../views/ProjectsPage.vue';
 import CardValProject from '../views/projects/CardValProject.vue';
 import LoginPageProject from '../views/projects/LoginPageProject.vue';
-import LoginPage from '../views/LoginPage.vue';  // Import the login page
+import LoginPage from '../views/LoginPage.vue'; 
+import AWSLambda from '../views/projects/AWSLambda.vue';
 
 const routes = [
   { path: '/', name: 'Home', component: HomePage },
@@ -14,6 +15,7 @@ const routes = [
   { path: '/projects', name: 'Projects', component: ProjectsPage },
   { path: '/projects/cardvalidationproject', name: 'Card Validation Project', component: CardValProject },
   { path: '/projects/loginpageproject', name: 'Login Page Project', component: LoginPageProject, meta: { requiresAuth: true } },
+  { path: '/projects/awslambda', name: 'AWS Lambda', component: AWSLambda },
   { path: '/login', name: 'Login', component: LoginPage },
 ];
 
