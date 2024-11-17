@@ -1,9 +1,10 @@
 <template>
   <div>
-    <h1>API Number Addition</h1>
+    <h1>API Calculator</h1>
 
     <div>
       <input v-model="num1" type="number" placeholder="Enter first number" />
+      <input v-model="op" placeholder="Enter operator" />
       <input v-model="num2" type="number" placeholder="Enter second number" />
 
       <button @click="sendNumbers">Send Numbers</button>
@@ -25,6 +26,7 @@ import axios from 'axios';
 export default {
   data() {
     return {
+      op: null,
       num1: null,
       num2: null,
       result: null,
@@ -36,14 +38,17 @@ export default {
       try {
         this.error = null;
 
-        const requestData = { num1: this.num1, num2: this.num2 };
+        const requestData = { op: this.op, num1: this.num1, num2: this.num2 };
+        const apiUrl = process.env.VUE_APP_API_URL;  
+        const apiKey = process.env.VUE_APP_API_KEY;  
+
         const response = await axios.post(
-          'https://z0ulxi5dc1.execute-api.us-east-1.amazonaws.com/TestStage/lambdatest1',
+          apiUrl,  
           requestData,
           {
             headers: {
               'Content-Type': 'application/json',
-              'x-api-key': 'UJlrdJRmRL1RalQOP8RA542u7FpZPT399OggdL1d'  // Replace with your actual API key
+              'x-api-key': apiKey  
             }
           }
         );
