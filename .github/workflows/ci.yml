@@ -22,7 +22,7 @@ jobs:
 
       - name: Upload files to S3
         run: |
-          cd dist/website
+          cd website/dist
           aws s3 sync . s3://personalwebsite-damianmiskow/ --delete
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
