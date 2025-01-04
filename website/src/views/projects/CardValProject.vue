@@ -11,23 +11,39 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref } from 'vue'; 
 import axios from 'axios';
 
 export default {
   name: 'CardValProject',
   setup() {
-    const cardNumber = ref('');
-    const result = ref(null);
-    const resultColor = ref('black');
+    const cardNumber = ref('');  // cardNumber is a string by default
+    const result = ref(null);  
+    const resultColor = ref('black');  
 
     const validateCard = async () => {
+      if (!cardNumber.value) {
+        result.value = 'Please enter a card number.';
+        resultColor.value = 'red';
+        return;  
+      }
+
+      // Convert cardNumber to an integer
+      const cardNumberInt = parseInt(cardNumber.value, 10);  // Or use Number(cardNumber.value)
+
+      if (isNaN(cardNumberInt)) {
+        result.value = 'Invalid card number format.';
+        resultColor.value = 'red';
+        return;
+      }
+
       try {
-        console.log('Sending POST request with card number:', cardNumber.value);
+        console.log('Sending POST request with card number:', cardNumberInt);
         
-        // Update the URL to the new IP address
-        const response = await axios.post('http://54.226.145.66:5000/validate', {
-          card_number: cardNumber.value,
+        const apiUrl = 'https://z0ulxi5dc1.execute-api.us-east-1.amazonaws.com/FirstStage/cardval';
+
+        const response = await axios.post(apiUrl, {
+          card_num: cardNumberInt,  // Send cardNumber as integer
         });
 
         console.log('Response:', response.data);
