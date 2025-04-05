@@ -14,7 +14,7 @@
         <button type="submit">Login</button>
         <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
       </form>
-      <p v-if="isAuthenticated">User: {{ username }}</p> <!-- Display logged in user -->
+      <p v-if="isAuthenticated">User: {{ username }}</p> 
     </div>
   </div>
 </template>
@@ -29,13 +29,13 @@ export default {
       username: '',
       password: '',
       errorMessage: '',
-      isAuthenticated: false // Track authentication status
+      isAuthenticated: false 
     };
   },
   methods: {
     async login() {
       try {
-        const response = await axios.post('http://54.226.145.66:5000/login', { // Updated URL
+        const response = await axios.post('http://54.226.145.66:5000/login', { 
           username: this.username,
           password: this.password,
         });
@@ -43,13 +43,13 @@ export default {
         if (response.data.authenticated) {
           this.errorMessage = '';
           localStorage.setItem('authenticated', 'true');
-          localStorage.setItem('username', this.username); // Store username in local storage
-          this.isAuthenticated = true; // Set authenticated state
+          localStorage.setItem('username', this.username); 
+          this.isAuthenticated = true;
           
           setTimeout(() => {
             localStorage.removeItem('authenticated'); 
-            localStorage.removeItem('username'); // Clear username after timeout
-            this.isAuthenticated = false; // Update authentication state
+            localStorage.removeItem('username'); 
+            this.isAuthenticated = false; 
           }, 20000); 
 
           this.$router.push({ name: 'Login Page Project' });
@@ -75,8 +75,8 @@ export default {
         if (!loginTime || now - loginTime > 20000) {
           localStorage.removeItem('authenticated'); 
         } else {
-          this.isAuthenticated = true; // Update state if still authenticated
-          this.username = localStorage.getItem('username') || ''; // Retrieve username
+          this.isAuthenticated = true; 
+          this.username = localStorage.getItem('username') || ''; 
         }
       }
     }

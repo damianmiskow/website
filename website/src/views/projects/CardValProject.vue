@@ -6,7 +6,9 @@
       <input type="text" v-model="cardNumber" id="card_number" required>
       <button type="submit">Validate</button>
     </form>
-    <p v-if="result !== null" :style="{ color: resultColor }">{{ result }}</p>
+    <p v-if="result !== null" :style="{ color: resultColor }" class="response-box">
+      {{ result }}
+    </p>
   </div>
 </template>
 
@@ -17,19 +19,18 @@ import axios from 'axios';
 export default {
   name: 'CardValProject',
   setup() {
-    const cardNumber = ref('');  // cardNumber is a string by default
-    const result = ref(null);  
-    const resultColor = ref('black');  
+    const cardNumber = ref('');
+    const result = ref(null);
+    const resultColor = ref('black');
 
     const validateCard = async () => {
       if (!cardNumber.value) {
         result.value = 'Please enter a card number.';
         resultColor.value = 'red';
-        return;  
+        return;
       }
 
-      // Convert cardNumber to an integer
-      const cardNumberInt = parseInt(cardNumber.value, 10);  // Or use Number(cardNumber.value)
+      const cardNumberInt = parseInt(cardNumber.value, 10);
 
       if (isNaN(cardNumberInt)) {
         result.value = 'Invalid card number format.';
@@ -39,11 +40,11 @@ export default {
 
       try {
         console.log('Sending POST request with card number:', cardNumberInt);
-        
-        const apiUrl = 'https://z0ulxi5dc1.execute-api.us-east-1.amazonaws.com/FirstStage/cardval';
+
+        const apiUrl = 'https://amohkkjuo8.execute-api.us-east-1.amazonaws.com/dev/cardvali';
 
         const response = await axios.post(apiUrl, {
-          card_num: cardNumberInt,  // Send cardNumber as integer
+          card_num: cardNumberInt,
         });
 
         console.log('Response:', response.data);
@@ -90,14 +91,14 @@ body {
 
 h1 {
   margin-bottom: 20px;
-  color: #fff8f8;
+  color: white;
 }
 
 label {
   display: block;
   margin-bottom: 10px;
   font-size: 16px;
-  color: #ffffff;
+  color: white; 
 }
 
 input[type="text"] {
@@ -130,8 +131,18 @@ button:active {
   transform: scale(1);
 }
 
-p {
+.response-box {
   margin-top: 20px;
+  padding: 15px;
+  border-radius: 10px;
   font-size: 18px;
+  font-weight: bold;
+  background-color: rgba(0, 0, 0, 0.7); 
+  color: white;
+  width: 80%; 
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); 
 }
 </style>
