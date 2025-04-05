@@ -2,7 +2,7 @@
     <div class="app">
       <div class="left-side">
         <h1 class="title">Address Tracker</h1>
-        
+  
         <!-- Dropdown menu to select an address -->
         <label for="address">Select Address:</label>
         <select v-model="selectedAddress" id="address" required class="select-address">
@@ -22,6 +22,14 @@
           </form>
         </div>
   
+        <!-- Input field for amount -->
+        <label for="amount">Enter Expense Amount:</label>
+        <input type="number" v-model="amount" id="amount" required placeholder="Enter the amount">
+  
+        <!-- Submit Button -->
+        <button @click="submitForm" class="submit-btn">Submit</button>
+  
+        <!-- Response message -->
         <p v-if="result !== null" :style="{ color: resultColor }" class="response-box">
           {{ result }}
         </p>
@@ -46,7 +54,7 @@
   </template>
   
   <script>
-  import { ref } from 'vue'; 
+  import { ref } from 'vue';
   import axios from 'axios';
   
   export default {
@@ -55,6 +63,7 @@
       const addresses = ref([]);
       const selectedAddress = ref('');
       const newAddress = ref('');
+      const amount = ref('');
       const result = ref(null);
       const resultColor = ref('black');
       const showAddAddressForm = ref(false);
@@ -64,11 +73,11 @@
         try {
           const apiUrl = 'https://amohkkjuo8.execute-api.us-east-1.amazonaws.com/dev/expense_tracker/access-db'; // Updated endpoint
           const response = await axios.get(apiUrl);
-          
+  
           // Parse the response body and extract the addresses
           const body = JSON.parse(response.data.body);
           addresses.value = body.addresses || [];
-          
+  
           if (addresses.value.length > 0) {
             selectedAddress.value = addresses.value[0];  // Set default selection to the first address
           }
@@ -114,6 +123,45 @@
         showAddAddressForm.value = !showAddAddressForm.value;
       };
   
+      // Submit the selected address and amount to update the DB
+      const submitForm = async () => {
+        if (!selectedAddress.value || !amount.value) {
+          result.value = 'Please select an address and enter an amount.';
+          resultColor.value = 'red';
+          return;
+        }
+  
+        try {
+          // Prepare the data to be sent in the POST request
+          const postData = {
+            address: selectedAddress.value,
+            expense: amount.value, // Ensure expense is sent, not amount
+          };
+  
+          // Send the data to the API endpoint
+          const apiUrl = 'https://amohkkjuo8.execute-api.us-east-1.amazonaws.com/dev/expense_tracker/submit'; // Submit endpoint
+          const response = await axios.post(apiUrl, postData);
+  
+          console.log('Form submitted:', response.data);
+  
+          // Check the response and set appropriate result message
+          if (response.status === 200) {
+            result.value = 'Form submitted successfully!';
+            resultColor.value = 'green';
+          } else {
+            result.value = 'Failed to submit form.';
+            resultColor.value = 'red';
+          }
+  
+          // Clear the amount field after submitting
+          amount.value = '';
+        } catch (error) {
+          console.error('Error submitting form:', error);
+          result.value = 'An error occurred while submitting the form.';
+          resultColor.value = 'red';
+        }
+      };
+  
       // Placeholder for future functionality when clicking an address link
       const handleAddressClick = (address) => {
         console.log('Clicked address:', address);
@@ -127,12 +175,14 @@
         addresses,
         selectedAddress,
         newAddress,
+        amount,
         result,
         resultColor,
         showAddAddressForm,
         fetchAddresses,
         addAddress,
         openAddAddressForm,
+        submitForm,
         handleAddressClick,
       };
     },
@@ -189,7 +239,7 @@
     display: block;
   }
   
-  select, input[type="text"] {
+  select, input[type="text"], input[type="number"] {
     width: 100%;
     padding: 12px;
     border: 1px solid #ddd;
